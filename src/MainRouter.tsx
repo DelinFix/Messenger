@@ -1,45 +1,51 @@
-import { useContext, useEffect } from "react"
-import { Route, Routes, useNavigate } from "react-router-dom"
-import Chat from "./components/Chat"
-import Login from "./components/Login"
+import { useContext } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { Route, Routes } from "react-router-dom"
 import { Context } from "./main"
-import Loader from "./components/Loader"
+
+// components
+import { Loader } from "~components"
+
+// pages
+import { Chat, Profile, Login, Registration } from "~pages"
 
 export const privateRouter = [
-  {
-    path: "chat",
-    element: <Chat />,
-  },
+    {
+        path: "/",
+        element: <Chat />,
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
+    },
 ]
 
 export const publicRouter = [
-  {
-    path: "login",
-    element: <Login />,
-  },
+    {
+        path: "/",
+        element: <Registration />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
 ]
 
 const MainRouter = () => {
-  const navigate = useNavigate()
-  const { auth } = useContext(Context)
-  const [user, loading] = useAuthState(auth)
+    const { auth } = useContext(Context)
+    const [user, loading] = useAuthState(auth)
 
-  useEffect(() => {
-    navigate(user ? "/chat" : "/login")
-  }, [navigate, user])
+    if (loading) {
+        return <Loader />
+    }
 
-  if (loading) {
-    return <Loader />
-  }
-
-  return (
-    <Routes>
-      {(user ? privateRouter : publicRouter).map(({ path, element }) => (
-        <Route path={path} element={element} key={path} />
-      ))}
-    </Routes>
-  )
+    return (
+        <Routes>
+            {(user ? privateRouter : publicRouter).map(({ path, element }) => (
+                <Route path={path} element={element} key={path} />
+            ))}
+        </Routes>
+    )
 }
 
 export default MainRouter

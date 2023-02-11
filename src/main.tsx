@@ -1,15 +1,14 @@
-import React, { createContext } from "react"
+import React, { createContext, useState } from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 import { initializeApp } from "firebase/app"
-import Navbar from "./components/Navbar"
-import MainRouter from "./MainRouter"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
-import "./App.css"
+import MainRouter from "./MainRouter"
+import "./css/App.css"
 
 const app = initializeApp({
-  apiKey: "AIzaSyAqAons3jfkXkBxOQK1RNuoS2Ehxi1TPXo",
+  apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_KEY,
   authDomain: "chat-dde85.firebaseapp.com",
   projectId: "chat-dde85",
   storageBucket: "chat-dde85.appspot.com",
@@ -27,7 +26,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Context.Provider value={{ auth, db }}>
       <BrowserRouter>
-        <Navbar />
         <MainRouter />
       </BrowserRouter>
     </Context.Provider>

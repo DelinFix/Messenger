@@ -1,14 +1,11 @@
-import { Backdrop, CircularProgress } from "@mui/material"
-import React from "react"
+// svg
+import { LoadingIcon } from "~svg"
 
 const Loader = () => {
   return (
-    <Backdrop
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
+    <div className="bg-gray-300 h-screen w-full flex justify-center">
+      <LoadingIcon width="50px" className="animate-spin fill-blue-600" />
+    </div>
   )
 }
 

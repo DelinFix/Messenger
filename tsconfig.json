@@ -14,8 +14,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "~hooks": ["src/hooks/EXPORT.ts"],
+
+      "~pages": ["src/pages/EXPORT.ts"],
+
+      "~components": ["src/components/EXPORT.ts"],
+
+      "~svg": ["src/assets/icons/EXPORT.ts"],
+      
+      "~types": ["src/types/EXPORT.ts"],
+    }
   },
   "include": ["src"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
