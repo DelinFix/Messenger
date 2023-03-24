@@ -1,52 +1,46 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Controller, useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import * as yup from "yup"
+import * as yup from 'yup'
 
 // svg
-import { ArrowIcon } from "~svg"
+import { ArrowIcon } from 'assets/icons/EXPORT'
 
 // components
-import { Input } from "~components"
+import { Input } from 'components/EXPORT'
 
 const user = {
-  email: "denis.basenko@yandex.ru",
-  login: "ivanivanov",
-  name: "Ivan",
-  surname: "Ivanov",
-  phoneNumber: "+7 (111) 111-11-11",
+  email: 'denis.basenko@yandex.ru',
+  login: 'ivanivanov',
+  name: 'Ivan',
+  surname: 'Ivanov',
+  phoneNumber: '+7 (111) 111-11-11'
 }
 
 const schema = yup
   .object({
-    email: yup.string().email("Некорректно введен email").required(),
+    email: yup.string().email('Некорректно введен email').required(),
     login: yup.string().required(),
     name: yup.string().required(),
     surname: yup.string().required(),
-    phoneNumber: yup
-      .string()
-      .min(18, "Некорректно введен номер телефона")
-      .required(),
+    phoneNumber: yup.string().min(18, 'Некорректно введен номер телефона').required()
   })
-  .required("Все поля обязательны")
+  .required('Все поля обязательны')
 
 const Profile = () => {
   const [isChanging, setIsChanging] = useState(false)
   const { handleSubmit, control } = useForm({
     defaultValues: user,
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   })
 
   const onSubmit = (data: any) => console.log(data)
 
   return (
     <div className="flex flex-row h-screen">
-      <Link
-        to="/"
-        className="flex items-center h-screen border-r px-5 bg-gray-100 cursor-pointer hover:bg-gray-200"
-      >
+      <Link to="/" className="flex items-center h-screen border-r px-5 bg-gray-100 cursor-pointer hover:bg-gray-200">
         <ArrowIcon width="35px" className="rotate-180 fill-blue-600" />
       </Link>
       <div className="flex justify-center w-full items-center">
@@ -61,10 +55,7 @@ const Profile = () => {
                   name="email"
                   control={control}
                   defaultValue={user.email}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <Input
                       value={value}
                       onChange={onChange}
@@ -85,10 +76,7 @@ const Profile = () => {
                   name="login"
                   control={control}
                   defaultValue={user.login}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <Input
                       value={value}
                       onChange={onChange}
@@ -109,10 +97,7 @@ const Profile = () => {
                   name="name"
                   control={control}
                   defaultValue={user.name}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <Input
                       value={value}
                       onChange={onChange}
@@ -133,10 +118,7 @@ const Profile = () => {
                   name="surname"
                   control={control}
                   defaultValue={user.surname}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <Input
                       value={value}
                       onChange={onChange}
@@ -156,10 +138,7 @@ const Profile = () => {
                 <Controller
                   name="phoneNumber"
                   control={control}
-                  render={({
-                    field: { value, onChange },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
                     <Input
                       className="border-none px-0"
                       value={value}
@@ -175,28 +154,18 @@ const Profile = () => {
               )}
             </div>
             <div className="w-full pb-2 border-b text-blue-600 font-medium mt-20 flex-row flex">
-              <div
-                onClick={() => setIsChanging(!isChanging)}
-                className="cursor-pointer"
-              >
-                {isChanging ? "Сохранить" : "Изменить данные"}
+              <div onClick={() => setIsChanging(!isChanging)} className="cursor-pointer">
+                {isChanging ? 'Сохранить' : 'Изменить данные'}
               </div>
               {isChanging && (
-                <div
-                  onClick={() => setIsChanging(!isChanging)}
-                  className="text-red-500 ml-5 cursor-pointer"
-                >
+                <div onClick={() => setIsChanging(!isChanging)} className="text-red-500 ml-5 cursor-pointer">
                   Отменить
                 </div>
               )}
             </div>
           </form>
-          <div className="w-full py-2 border-b text-blue-600 font-medium cursor-pointer">
-            Изменить пароль
-          </div>
-          <div className="pt-2 font-medium text-red-500 cursor-pointer">
-            Выйти
-          </div>
+          <div className="w-full py-2 border-b text-blue-600 font-medium cursor-pointer">Изменить пароль</div>
+          <div className="pt-2 font-medium text-red-500 cursor-pointer">Выйти</div>
         </div>
       </div>
     </div>

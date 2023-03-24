@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
-import { SubmitHandler } from "react-hook-form/dist/types"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Link } from "react-router-dom"
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form/dist/types'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Link } from 'react-router-dom'
 
-import cls from "classnames"
+import cls from 'classnames'
 
-import * as yup from "yup"
+import * as yup from 'yup'
 
 // components
-import { Input } from "~components"
+import { Input } from 'components/EXPORT'
 
 interface IFormInput {
   email: string
@@ -22,64 +22,64 @@ var formModelSchema = yup.object().shape(
     email: yup
       .string()
       .email()
-      .when("phoneNumber", {
-        is: (phoneNumber) => !phoneNumber || phoneNumber.length === 0,
+      .when('phoneNumber', {
+        is: phoneNumber => !phoneNumber || phoneNumber.length === 0,
         then: yup.string().email().required(),
-        otherwise: yup.string(),
+        otherwise: yup.string()
       }),
     phoneNumber: yup
       .string()
       .min(18)
-      .when("email", {
-        is: (email) => !email || email.length === 0,
+      .when('email', {
+        is: email => !email || email.length === 0,
         then: yup.string().required(),
-        otherwise: yup.string(),
+        otherwise: yup.string()
       }),
-    password: yup.string().min(6).required(),
+    password: yup.string().min(6).required()
   },
-  [["email", "phoneNumber"]]
+  [['email', 'phoneNumber']]
 )
 
 const LoginForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     defaultValues: {
-      email: "",
-      phoneNumber: "",
-      password: "",
+      email: '',
+      phoneNumber: '',
+      password: ''
     },
-    resolver: yupResolver(formModelSchema),
+    resolver: yupResolver(formModelSchema)
   })
-  const [tab, setTab] = useState("phone")
+  const [tab, setTab] = useState('phone')
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data)
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-row my-3 border rounded-lg">
         <div
           className={cls(
-            "w-full justify-center flex py-2 rounded-l-lg cursor-pointer",
-            tab === "phone" && "bg-blue-600 text-white"
+            'w-full justify-center flex py-2 rounded-l-lg cursor-pointer',
+            tab === 'phone' && 'bg-blue-600 text-white'
           )}
-          onClick={() => setTab("phone")}
+          onClick={() => setTab('phone')}
         >
           Телефон
         </div>
         <div
           className={cls(
-            "w-full justify-center flex py-2 rounded-r-lg cursor-pointer",
-            tab !== "phone" && "bg-blue-600 text-white"
+            'w-full justify-center flex py-2 rounded-r-lg cursor-pointer',
+            tab !== 'phone' && 'bg-blue-600 text-white'
           )}
-          onClick={() => setTab("email")}
+          onClick={() => setTab('email')}
         >
           Почта
         </div>
       </div>
-      {tab === "phone" && (
+      {tab === 'phone' && (
         <Controller
           name="phoneNumber"
           control={control}
@@ -96,7 +96,7 @@ const LoginForm = () => {
           )}
         />
       )}
-      {tab === "email" && (
+      {tab === 'email' && (
         <Controller
           name="email"
           control={control}
@@ -126,9 +126,7 @@ const LoginForm = () => {
           />
         )}
       />
-      <button className="mb-4 h-12 mt-16 bg-blue-600 text-white rounded-lg font-medium">
-        Войти
-      </button>
+      <button className="mb-4 h-12 mt-16 bg-blue-600 text-white rounded-lg font-medium">Войти</button>
       <Link to="/" className="w-fit mx-auto">
         <button className=" text-blue-600">Зарегистрироваться</button>
       </Link>

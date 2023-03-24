@@ -1,49 +1,48 @@
-import { FC, useCallback } from "react"
+import { FC, useCallback } from 'react'
 
 // types
-import { IChat } from "~types"
+import { IChat } from 'types/EXPORT'
 
 const mockedChats: IChat[] = [
   {
     user: {
-      displayName: "Андрей",
-      uid: "2",
+      displayName: 'Андрей',
+      uid: '2'
     },
     lastMessage: {
-      text: "MsgText 12345678910 test1 test2 test3 test4 test5 testMsg sometext1 sometext2 sometext3 some te",
-      displayName: "Артур",
+      text: 'MsgText 12345678910 test1 test2 test3 test4 test5 testMsg sometext1 sometext2 sometext3 some te',
+      displayName: 'Артур',
       createdAt: new Date(999999),
-      photoURL: "",
-      uid: "2",
+      photoURL: '',
+      uid: '2'
     },
-    time: "10:49",
-    unreadMessages: 5,
+    time: '10:49',
+    unreadMessages: 5
   },
   {
     user: {
-      displayName: "Илья",
-      uid: "1",
+      displayName: 'Илья',
+      uid: '1'
     },
     lastMessage: {
-      text: "Круто!",
-      displayName: "Денис",
+      text: 'Круто!',
+      displayName: 'Денис',
       createdAt: new Date(),
-      photoURL: "",
-      uid: "0",
+      photoURL: '',
+      uid: '0'
     },
-    time: "Пт",
-  },
+    time: 'Пт'
+  }
 ]
 
 const Chats: FC = () => {
   const currentUser = {
-    uid: "0",
-    displayName: "Денис",
+    uid: '0',
+    displayName: 'Денис'
   }
 
   const handleMessageLimit = useCallback(
-    (msg: string = "") =>
-      msg.length >= 95 ? msg.substring(0, 92) + "..." : msg,
+    (msg: string = '') => (msg.length >= 95 ? msg.substring(0, 92) + '...' : msg),
     []
   )
 
@@ -53,7 +52,7 @@ const Chats: FC = () => {
 
   return (
     <div className="overflow-y-auto">
-      {mockedChats.map((chat) => {
+      {mockedChats.map(chat => {
         const { lastMessage, time, user, unreadMessages } = chat
         return (
           <div
@@ -65,9 +64,7 @@ const Chats: FC = () => {
             <div className="flex flex-col w-fit grow ml-4">
               <div className="font-semibold">{user.displayName}</div>
               <div className="text-gray-400 text-sm overflow-hidden h-10">
-                {currentUser.uid === lastMessage.uid && (
-                  <span className="font-semibold text-black">Вы: </span>
-                )}
+                {currentUser.uid === lastMessage.uid && <span className="font-semibold text-black">Вы: </span>}
                 {handleMessageLimit(lastMessage.text)}
               </div>
             </div>
@@ -82,9 +79,7 @@ const Chats: FC = () => {
           </div>
         )
       })}
-      {mockedChats.length === 0 && (
-        <div className="text-center text-xl text-gray-400 mt-5">No chats</div>
-      )}
+      {mockedChats.length === 0 && <div className="text-center text-xl text-gray-400 mt-5">No chats</div>}
     </div>
   )
 }

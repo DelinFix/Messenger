@@ -1,5 +1,5 @@
 // svg
-import { LoadingIcon } from "~svg"
+import { LoadingIcon } from 'assets/icons/EXPORT'
 
 const Loader = () => {
   return (

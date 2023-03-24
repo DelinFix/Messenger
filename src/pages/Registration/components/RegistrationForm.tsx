@@ -1,12 +1,12 @@
-import { Controller, useForm } from "react-hook-form"
-import { SubmitHandler } from "react-hook-form/dist/types"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Link } from "react-router-dom"
+import { Controller, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form/dist/types'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Link } from 'react-router-dom'
 
-import * as yup from "yup"
+import * as yup from 'yup'
 
 // components
-import { Input } from "~components"
+import { Input } from 'components/EXPORT'
 
 interface IFormInput {
   email: string
@@ -29,25 +29,25 @@ const schema = yup
     secondPassword: yup
       .string()
       .required()
-      .oneOf([yup.ref("password"), null]),
+      .oneOf([yup.ref('password'), null])
   })
   .required()
 
 const RegistrationForm = () => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      email: "",
-      login: "",
-      name: "",
-      surname: "",
-      phoneNumber: "",
-      password: "",
-      secondPassword: "",
+      email: '',
+      login: '',
+      name: '',
+      surname: '',
+      phoneNumber: '',
+      password: '',
+      secondPassword: ''
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   })
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data)
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +59,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Некорректно введен email"}
+            errorMessage={'Некорректно введен email'}
             containerClassName="mb-3"
             label="Почта"
             placeholder="email@email.com"
@@ -74,7 +74,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Это поле обязательное"}
+            errorMessage={'Это поле обязательное'}
             containerClassName="mb-3"
             label="Логин"
             placeholder="ivanivanov"
@@ -89,7 +89,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Это поле обязательное"}
+            errorMessage={'Это поле обязательное'}
             containerClassName="mb-3"
             label="Имя"
             placeholder="Иван"
@@ -104,7 +104,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Это поле обязательное"}
+            errorMessage={'Это поле обязательное'}
             containerClassName="mb-3"
             label="Фамилия"
             placeholder="Иванов"
@@ -120,7 +120,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Некорректно введен номер телефона"}
+            errorMessage={'Некорректно введен номер телефона'}
             placeholder="+7 111-111-11-11"
             isNumber
             label="Телефон"
@@ -135,7 +135,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Минимальная длина пароля 6 символов"}
+            errorMessage={'Минимальная длина пароля 6 символов'}
             containerClassName="mb-3"
             isPassword
             label="Пароль"
@@ -150,15 +150,13 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={"Пароли должны совпадать"}
+            errorMessage={'Пароли должны совпадать'}
             isPassword
             label="Пароль (ещё раз)"
           />
         )}
       />
-      <button className="mb-4 h-12 mt-16 bg-blue-600 text-white rounded-lg font-medium">
-        Зарегистрироваться
-      </button>
+      <button className="mb-4 h-12 mt-16 bg-blue-600 text-white rounded-lg font-medium">Зарегистрироваться</button>
       <Link to="/login" className="w-fit mx-auto">
         <button className=" text-blue-600">Войти</button>
       </Link>
