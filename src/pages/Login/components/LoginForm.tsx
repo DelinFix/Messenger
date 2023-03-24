@@ -3,59 +3,31 @@ import { Controller, useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
+import { schema } from './LoginSchema'
 
 import cls from 'classnames'
-
-import * as yup from 'yup'
 
 // components
 import { Input } from 'components/EXPORT'
 
-interface IFormInput {
+interface ILoginForm {
   email: string
   phoneNumber: string
   password: string
 }
 
-var formModelSchema = yup.object().shape(
-  {
-    email: yup
-      .string()
-      .email()
-      .when('phoneNumber', {
-        is: phoneNumber => !phoneNumber || phoneNumber.length === 0,
-        then: yup.string().email().required(),
-        otherwise: yup.string()
-      }),
-    phoneNumber: yup
-      .string()
-      .min(18)
-      .when('email', {
-        is: email => !email || email.length === 0,
-        then: yup.string().required(),
-        otherwise: yup.string()
-      }),
-    password: yup.string().min(6).required()
-  },
-  [['email', 'phoneNumber']]
-)
-
 const LoginForm = () => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       email: '',
       phoneNumber: '',
       password: ''
     },
-    resolver: yupResolver(formModelSchema)
+    resolver: yupResolver(schema)
   })
   const [tab, setTab] = useState('phone')
 
-  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data)
+  const onSubmit: SubmitHandler<ILoginForm> = data => console.log(data)
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -83,12 +55,13 @@ const LoginForm = () => {
         <Controller
           name="phoneNumber"
           control={control}
-          render={({ field: { value, onChange } }) => (
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input
               containerClassName="mb-3"
               value={value}
               onChange={onChange}
-              error={!!errors.phoneNumber}
+              error={!!error}
+              errorMessage={error?.message}
               placeholder="+7 111-111-11-11"
               isNumber
               label="Телефон"
@@ -100,11 +73,12 @@ const LoginForm = () => {
         <Controller
           name="email"
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Input
               value={value}
               onChange={onChange}
-              error={!!errors.email}
+              error={!!error}
+              errorMessage={error?.message}
               containerClassName="mb-3"
               label="Почта"
               placeholder="email@email.com"
@@ -115,11 +89,12 @@ const LoginForm = () => {
       <Controller
         name="password"
         control={control}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
           <Input
             value={value}
             onChange={onChange}
-            error={!!errors.password}
+            error={!!error}
+            errorMessage={error?.message}
             containerClassName="mb-3"
             isPassword
             label="Пароль"

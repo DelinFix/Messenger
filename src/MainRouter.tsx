@@ -49,7 +49,7 @@ const MainRouter = () => {
 
   return (
     <Routes>
-      {(user ? privateRouter : publicRouter).map(({ path, element }) => (
+      {(!user ? privateRouter : publicRouter).map(({ path, element }) => (
         <Route path={path} element={element} key={path} />
       ))}
     </Routes>

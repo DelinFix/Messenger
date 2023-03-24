@@ -2,8 +2,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
-
-import * as yup from 'yup'
+import { schema } from './RegistrationSchema'
 
 // components
 import { Input } from 'components/EXPORT'
@@ -12,26 +11,10 @@ interface IFormInput {
   email: string
   login: string
   name: string
-  surname: string
   phoneNumber: string
   password: string
   secondPassword: string
 }
-
-const schema = yup
-  .object({
-    email: yup.string().email().required(),
-    login: yup.string().required(),
-    name: yup.string().required(),
-    surname: yup.string().required(),
-    phoneNumber: yup.string().min(18).required(),
-    password: yup.string().min(6).required(),
-    secondPassword: yup
-      .string()
-      .required()
-      .oneOf([yup.ref('password'), null])
-  })
-  .required()
 
 const RegistrationForm = () => {
   const { handleSubmit, control } = useForm({
@@ -39,7 +22,6 @@ const RegistrationForm = () => {
       email: '',
       login: '',
       name: '',
-      surname: '',
       phoneNumber: '',
       password: '',
       secondPassword: ''
@@ -59,7 +41,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Некорректно введен email'}
+            errorMessage={error?.message}
             containerClassName="mb-3"
             label="Почта"
             placeholder="email@email.com"
@@ -74,7 +56,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Это поле обязательное'}
+            errorMessage={error?.message}
             containerClassName="mb-3"
             label="Логин"
             placeholder="ivanivanov"
@@ -89,25 +71,10 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Это поле обязательное'}
+            errorMessage={error?.message}
             containerClassName="mb-3"
             label="Имя"
             placeholder="Иван"
-          />
-        )}
-      />
-      <Controller
-        name="surname"
-        control={control}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <Input
-            value={value}
-            onChange={onChange}
-            error={!!error}
-            errorMessage={'Это поле обязательное'}
-            containerClassName="mb-3"
-            label="Фамилия"
-            placeholder="Иванов"
           />
         )}
       />
@@ -120,7 +87,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Некорректно введен номер телефона'}
+            errorMessage={error?.message}
             placeholder="+7 111-111-11-11"
             isNumber
             label="Телефон"
@@ -135,7 +102,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Минимальная длина пароля 6 символов'}
+            errorMessage={error?.message}
             containerClassName="mb-3"
             isPassword
             label="Пароль"
@@ -150,7 +117,7 @@ const RegistrationForm = () => {
             value={value}
             onChange={onChange}
             error={!!error}
-            errorMessage={'Пароли должны совпадать'}
+            errorMessage={error?.message}
             isPassword
             label="Пароль (ещё раз)"
           />

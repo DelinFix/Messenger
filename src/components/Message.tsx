@@ -4,13 +4,14 @@ import { FC, memo, useMemo } from 'react'
 import { IMessage } from 'types/EXPORT'
 
 import cls from 'classnames'
+import getFormatedTime from 'utils/getFormatedTime'
 
 export interface IMessageProps {
   message: IMessage
 }
 
 const Message: FC<IMessageProps> = props => {
-  const { text, uid } = props.message
+  const { text, uid, createdAt } = props.message
 
   const currentUser = {
     displayName: 'Денис',
@@ -27,7 +28,9 @@ const Message: FC<IMessageProps> = props => {
       )}
     >
       <div>{text}</div>
-      <div className={cls('text-xs self-end ml-1', isCurrent ? 'text-blue-500' : 'text-gray-400')}>11:56</div>
+      <div className={cls('text-xs self-end ml-1', isCurrent ? 'text-blue-500' : 'text-gray-400')}>
+        {getFormatedTime(createdAt)}
+      </div>
     </div>
   )
 }

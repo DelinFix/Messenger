@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react'
 
 // types
 import { IChat } from 'types/EXPORT'
+import getFormatedTime from 'utils/getFormatedTime'
 
 const mockedChats: IChat[] = [
   {
@@ -16,7 +17,7 @@ const mockedChats: IChat[] = [
       photoURL: '',
       uid: '2'
     },
-    time: '10:49',
+    time: new Date(999994429),
     unreadMessages: 5
   },
   {
@@ -31,7 +32,7 @@ const mockedChats: IChat[] = [
       photoURL: '',
       uid: '0'
     },
-    time: 'Пт'
+    time: new Date(999924244299)
   }
 ]
 
@@ -69,7 +70,7 @@ const Chats: FC = () => {
               </div>
             </div>
             <div className="flex flex-col ml-auto justify-between pl-4">
-              <div className="text-gray-400 text-xs">{time}</div>
+              <div className="text-gray-400 text-xs">{getFormatedTime(time)}</div>
               {unreadMessages && (
                 <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex justify-center items-center">
                   {unreadMessages}

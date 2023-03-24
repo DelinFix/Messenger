@@ -1,9 +1,9 @@
-import { IMessage } from "./message"
+import { IMessage } from './message'
 
 export interface IChat {
   user: IUser
   lastMessage: IMessage
-  time: string
+  time: Date | number
   unreadMessages?: number
 }
 
