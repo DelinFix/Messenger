@@ -1,10 +1,13 @@
 import { FC, memo, useMemo } from 'react'
+import cls from 'classnames'
 
 //types
 import { IMessage } from 'types/EXPORT'
 
-import cls from 'classnames'
+// utils
 import { getFormatedTime } from 'utils/EXPORT'
+
+// mocks
 import { mockCurrentUser } from 'mocks/EXPORT'
 
 export interface IMessageProps {
@@ -19,8 +22,8 @@ const Message: FC<IMessageProps> = props => {
   return (
     <div
       className={cls(
-        'flex flex-row w-fit p-2.5 rounded-xl mb-1',
-        isCurrent ? 'ml-auto bg-blue-100 rounded-br-sm' : 'bg-gray-100 rounded-tl-sm'
+        'flex flex-row w-fit p-2.5 rounded-xl my-3',
+        isCurrent ? 'ml-10 bg-blue-100 rounded-br-sm self-end' : 'bg-gray-100 rounded-tl-sm mr-10'
       )}
     >
       <div>{body}</div>

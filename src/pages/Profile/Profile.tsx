@@ -40,12 +40,15 @@ const Profile = () => {
     <div className="flex flex-row h-screen">
       <div
         onClick={goBack}
-        className="flex items-center h-screen border-r px-5 bg-gray-100 cursor-pointer hover:bg-gray-200"
+        className="hidden items-center h-[100vh] border-r sm:flex px-5 bg-gray-100 cursor-pointer hover:bg-gray-200"
       >
-        <ArrowIcon width="35px" className="rotate-180 fill-blue-600" />
+        <ArrowIcon width="36px" className="rotate-180 fill-blue-600" />
       </div>
-      <div className="flex justify-center w-full items-center">
-        <div className="w-[550px]">
+      <div className="flex justify-center w-full sm:items-center my-3">
+        <div onClick={goBack} className="sm:hidden block -mr-9">
+          <ArrowIcon width="36px" className="rotate-180 fill-blue-600" />
+        </div>
+        <div className="sm:w-[550px] w-72">
           <div className="w-[100px] h-[100px] rounded-full bg-gray-300 mx-auto mb-4 cursor-pointer" />
           <div className="font-semibold text-3xl text-center mb-4">{user.name}</div>
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
