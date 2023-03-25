@@ -1,13 +1,9 @@
 import { IMessage } from './message'
+import { IUser } from './user'
 
 export interface IChat {
-  user: IUser
-  lastMessage: IMessage
-  time: Date | number
-  unreadMessages?: number
-}
-
-export interface IUser {
-  displayName: string
-  uid: string
+  id: string
+  name: string
+  messages: IMessage[]
+  users: IUser[]
 }

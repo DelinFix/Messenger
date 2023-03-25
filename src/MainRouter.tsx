@@ -11,11 +11,19 @@ import { Chat, Profile, Login, Registration, Error } from 'pages/EXPORT'
 
 export const privateRouter = [
   {
-    path: '/',
+    path: '/chat',
+    element: <Chat />
+  },
+  {
+    path: '/chat/:id',
     element: <Chat />
   },
   {
     path: '/profile',
+    element: <Profile />
+  },
+  {
+    path: '/profile/:id',
     element: <Profile />
   },
   {

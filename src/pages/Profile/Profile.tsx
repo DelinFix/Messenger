@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-import * as yup from 'yup'
+import { schema } from './ProfileSchema'
 
 // svg
 import { ArrowIcon } from 'assets/icons/EXPORT'
@@ -11,42 +10,44 @@ import { ArrowIcon } from 'assets/icons/EXPORT'
 // components
 import { Input } from 'components/EXPORT'
 
-const user = {
-  email: 'denis.basenko@yandex.ru',
-  login: 'ivanivanov',
-  name: 'Ivan',
-  surname: 'Ivanov',
-  phoneNumber: '+7 (111) 111-11-11'
-}
-
-const schema = yup
-  .object({
-    email: yup.string().email('Некорректно введен email').required(),
-    login: yup.string().required(),
-    name: yup.string().required(),
-    surname: yup.string().required(),
-    phoneNumber: yup.string().min(18, 'Некорректно введен номер телефона').required()
-  })
-  .required('Все поля обязательны')
+// mocks
+import { mockCurrentUser, mockUsers } from 'mocks/EXPORT'
 
 const Profile = () => {
   const [isChanging, setIsChanging] = useState(false)
+  const [user, setUser] = useState(mockCurrentUser)
+  const navigate = useNavigate()
+  const params = useParams()
+
+  useEffect(() => {
+    if (Object.entries(params).length !== 0) {
+      setUser(mockUsers.filter(user => user.id === params.id)[0])
+    }
+  }, [params])
+
   const { handleSubmit, control } = useForm({
     defaultValues: user,
     resolver: yupResolver(schema)
   })
 
+  const switchIsChanging = () => setIsChanging(!isChanging)
+
+  const goBack = () => navigate(-1)
+
   const onSubmit = (data: any) => console.log(data)
 
   return (
     <div className="flex flex-row h-screen">
-      <Link to="/" className="flex items-center h-screen border-r px-5 bg-gray-100 cursor-pointer hover:bg-gray-200">
+      <div
+        onClick={goBack}
+        className="flex items-center h-screen border-r px-5 bg-gray-100 cursor-pointer hover:bg-gray-200"
+      >
         <ArrowIcon width="35px" className="rotate-180 fill-blue-600" />
-      </Link>
+      </div>
       <div className="flex justify-center w-full items-center">
         <div className="w-[550px]">
-          <div className="w-[100px] h-[100px] rounded-full bg-gray-300 mx-auto mb-4" />
-          <div className="font-semibold text-3xl text-center mb-4">Ivan</div>
+          <div className="w-[100px] h-[100px] rounded-full bg-gray-300 mx-auto mb-4 cursor-pointer" />
+          <div className="font-semibold text-3xl text-center mb-4">{user.name}</div>
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-row w-full pb-3 mt-3 border-b justify-between">
               <div className="font-semibold">Почта</div>
@@ -111,27 +112,6 @@ const Profile = () => {
                 <div className="text-gray-400">{user.name}</div>
               )}
             </div>
-            <div className="flex flex-row w-full pb-3 mt-3 border-b justify-between">
-              <div className="font-semibold">Фамилия</div>
-              {isChanging ? (
-                <Controller
-                  name="surname"
-                  control={control}
-                  defaultValue={user.surname}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <Input
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      className="border-none px-0"
-                      placeholder="Иванов"
-                    />
-                  )}
-                />
-              ) : (
-                <div className="text-gray-400">{user.surname}</div>
-              )}
-            </div>
             <div className="flex flex-row w-full pb-3 mt-3 justify-between">
               <div className="font-semibold">Телефон</div>
               {isChanging ? (
@@ -153,19 +133,23 @@ const Profile = () => {
                 <div className="text-gray-400">{user.phoneNumber}</div>
               )}
             </div>
-            <div className="w-full pb-2 border-b text-blue-600 font-medium mt-20 flex-row flex">
-              <div onClick={() => setIsChanging(!isChanging)} className="cursor-pointer">
-                {isChanging ? 'Сохранить' : 'Изменить данные'}
-              </div>
-              {isChanging && (
-                <div onClick={() => setIsChanging(!isChanging)} className="text-red-500 ml-5 cursor-pointer">
-                  Отменить
+            {Object.entries(params).length === 0 && (
+              <div>
+                <div className="w-full pb-2 border-b text-blue-600 font-medium mt-20 flex-row flex">
+                  <div onClick={switchIsChanging} className="cursor-pointer">
+                    {isChanging ? 'Сохранить' : 'Изменить данные'}
+                  </div>
+                  {isChanging && (
+                    <div onClick={switchIsChanging} className="text-red-500 ml-5 cursor-pointer">
+                      Отменить
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+                <div className="w-full py-2 border-b text-blue-600 font-medium cursor-pointer">Изменить пароль</div>
+                <div className="pt-2 font-medium text-red-500 cursor-pointer">Выйти</div>
+              </div>
+            )}
           </form>
-          <div className="w-full py-2 border-b text-blue-600 font-medium cursor-pointer">Изменить пароль</div>
-          <div className="pt-2 font-medium text-red-500 cursor-pointer">Выйти</div>
         </div>
       </div>
     </div>

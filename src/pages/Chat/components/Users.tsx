@@ -1,26 +1,5 @@
+import { mockCurrentUser, mockUsers } from 'mocks/users'
 import { FC, useEffect, useState } from 'react'
-
-// types
-import { IUser } from 'types/EXPORT'
-
-const mockedUsers: IUser[] = [
-  {
-    displayName: 'Андрей',
-    uid: '1'
-  },
-  {
-    displayName: 'Артур',
-    uid: '2'
-  },
-  {
-    displayName: 'Илья',
-    uid: '3'
-  },
-  {
-    displayName: 'Денис',
-    uid: '0'
-  }
-]
 
 export interface IUserssProps {
   search: string
@@ -28,19 +7,26 @@ export interface IUserssProps {
 
 const Users: FC<IUserssProps> = props => {
   const { search = '' } = props
-  const [users, setUsers] = useState(mockedUsers)
+  const [users, setUsers] = useState(mockUsers)
 
   useEffect(() => {
-    setUsers(mockedUsers.filter(user => user.displayName.toLowerCase().includes(search.toLowerCase())))
+    setUsers(
+      mockUsers.filter(
+        user =>
+          (user.name.toLowerCase().includes(search.toLowerCase()) ||
+            user.login.toLowerCase().includes(search.toLowerCase())) &&
+          user.id !== mockCurrentUser.id
+      )
+    )
   }, [search])
 
   return (
     <div className="overflow-y-auto">
-      {users.map(({ displayName, uid }) => (
-        <div className="flex flex-row h-24 py-4 border-b cursor-pointer hover:bg-gray-200 px-3" key={uid}>
+      {users.map(({ name, id }) => (
+        <div className="flex flex-row h-24 py-4 border-b cursor-pointer hover:bg-gray-200 px-3" key={id}>
           <div className="min-w-[62px] h-[62px] rounded-full bg-gray-300" />
           <div className="flex flex-col w-fit grow ml-4 justify-center">
-            <div className="font-medium text-lg">{displayName}</div>
+            <div className="font-medium text-lg">{name}</div>
           </div>
           <div className="flex flex-col ml-auto justify-between"></div>
         </div>

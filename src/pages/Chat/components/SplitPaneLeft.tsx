@@ -1,20 +1,27 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Chats from './Chats'
 import Users from './Users'
+
+import cls from 'classnames'
 
 // svg
 import { NextIcon } from 'assets/icons/EXPORT'
 
 const SplitPaneLeft = () => {
   const [search, setSearch] = useState('')
+  const params = useParams()
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
   }
 
   return (
-    <div className="flex flex-col h-screen w-1/4 bg-gray-100">
+    <div
+      className={cls('lg:flex flex-col h-screen w-1/4 max-lg:w-[100vh] bg-gray-100', {
+        hidden: Object.entries(params).length !== 0
+      })}
+    >
       <div className="pb-5 border-b px-3">
         <Link to="/profile" className="text-gray-400 mt-3 flex w-fit ml-auto hover:text-gray-500">
           Профиль

@@ -5,26 +5,19 @@ import { Message } from 'components/EXPORT'
 import { ArrowIcon, KebabMenuIcon, PaperClipIcon } from 'assets/icons/EXPORT'
 
 // types
-import { IMessage } from 'types/EXPORT'
-
-const mockMessages: IMessage[] = [
-  {
-    text: 'Как ты себя чувтсвуешь?',
-    displayName: 'Илья',
-    createdAt: new Date(999999),
-    photoURL: '',
-    uid: '1'
-  },
-  {
-    text: 'Круто!',
-    displayName: 'Денис',
-    createdAt: new Date(),
-    photoURL: '',
-    uid: '0'
-  }
-]
+import { IChat } from 'types/EXPORT'
+import { Link, useParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { mockChats } from 'mocks/chats'
+import { mockCurrentUser } from 'mocks/users'
 
 const ChatScreen = () => {
+  const { id = '0' } = useParams<{ id?: string }>()
+  const [chatInfo, setChatInfo] = useState({} as IChat)
+  useEffect(() => {
+    setChatInfo(mockChats[Number(id)])
+  }, [id])
+
   // const sendMessage = async () => {
   //   if (message.trim()) {
   //     await addDoc(messageCol, {
@@ -38,17 +31,26 @@ const ChatScreen = () => {
   //     getMessages()
   //   }
   // }
+  const otherUserId = useMemo(
+    () => chatInfo.users?.filter(user => user.id !== mockCurrentUser.id)[0].id,
+    [chatInfo.users]
+  )
   return (
-    <div className="h-full p-8">
+    <div className="h-[100vh] p-3 sm:p-8">
       <div className="flex flex-row items-center w-full pb-4 border-b">
-        <div className="min-w-[50px] h-[50px] rounded-full bg-gray-300" />
-        <div className="text-lg font-semibold ml-4">Илья</div>
+        <Link to="/chat" className="block p-5 sm:hidden">
+          <ArrowIcon width="35px" className="rotate-180 fill-blue-600" />
+        </Link>
+        <Link to={`/profile/${otherUserId}`} className="flex flex-row items-center cursor-pointer">
+          <div className="min-w-[50px] h-[50px] rounded-full bg-gray-300" />
+          <div className="text-lg font-semibold ml-4">{chatInfo.name}</div>
+        </Link>
         <KebabMenuIcon width="20px" className="fill-blue-600 cursor-pointer ml-auto" />
       </div>
       <div className="overflow-y-auto align-bottom flex flex-col justify-end h-4/5 mb-4">
         <div className="w-full text-gray-400 text-center">19 июня</div>
-        {mockMessages.map(msg => (
-          <Message message={msg} key={msg.createdAt.toString()} />
+        {chatInfo.messages?.map(msg => (
+          <Message message={msg} key={msg.id} />
         ))}
       </div>
       <div className="flex flex-row w-full border-t pt-4">

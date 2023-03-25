@@ -1,7 +1,11 @@
+export type MsgType = 'text' | 'image' | 'file'
+
 export interface IMessage {
-  uid: string
-  displayName: string
+  id: string
+  body: string
   photoURL: string
-  text: string
-  createdAt: Date
+  createdAt: Date | number
+  checked: boolean
+  type: MsgType
+  senderId: string
 }

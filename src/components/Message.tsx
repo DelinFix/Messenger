@@ -4,21 +4,17 @@ import { FC, memo, useMemo } from 'react'
 import { IMessage } from 'types/EXPORT'
 
 import cls from 'classnames'
-import getFormatedTime from 'utils/getFormatedTime'
+import { getFormatedTime } from 'utils/EXPORT'
+import { mockCurrentUser } from 'mocks/EXPORT'
 
 export interface IMessageProps {
   message: IMessage
 }
 
 const Message: FC<IMessageProps> = props => {
-  const { text, uid, createdAt } = props.message
+  const { body, createdAt, senderId } = props.message
 
-  const currentUser = {
-    displayName: 'Денис',
-    uid: '0'
-  }
-
-  const isCurrent = useMemo(() => uid === currentUser.uid, [currentUser, uid])
+  const isCurrent = useMemo(() => senderId === mockCurrentUser.id, [mockCurrentUser.id, senderId])
 
   return (
     <div
@@ -27,7 +23,7 @@ const Message: FC<IMessageProps> = props => {
         isCurrent ? 'ml-auto bg-blue-100 rounded-br-sm' : 'bg-gray-100 rounded-tl-sm'
       )}
     >
-      <div>{text}</div>
+      <div>{body}</div>
       <div className={cls('text-xs self-end ml-1', isCurrent ? 'text-blue-500' : 'text-gray-400')}>
         {getFormatedTime(createdAt)}
       </div>
