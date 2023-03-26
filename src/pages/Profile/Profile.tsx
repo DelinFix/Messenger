@@ -8,7 +8,7 @@ import { schema } from './ProfileSchema'
 import { ArrowIcon } from 'assets/icons/EXPORT'
 
 // components
-import { Input } from 'components/EXPORT'
+import { Input, Avatar } from 'components/EXPORT'
 
 // mocks
 import { mockCurrentUser, mockUsers } from 'mocks/EXPORT'
@@ -49,7 +49,7 @@ const Profile = () => {
           <ArrowIcon width="36px" className="rotate-180 fill-blue-600" />
         </div>
         <div className="sm:w-[550px] w-72">
-          <div className="w-[100px] h-[100px] rounded-full bg-gray-300 mx-auto mb-4 cursor-pointer" />
+          <Avatar className="w-24 h-24 mx-auto" src={user.photoURL} />
           <div className="font-semibold text-3xl text-center mb-4">{user.name}</div>
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-row w-full pb-3 mt-3 border-b justify-between">

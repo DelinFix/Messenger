@@ -9,6 +9,9 @@ import { getFormatedTime } from 'utils/EXPORT'
 // mocks
 import { mockChats, mockCurrentUser } from 'mocks/EXPORT'
 
+// components
+import { Avatar } from 'components/EXPORT'
+
 const Chats: FC = () => {
   const params = useParams()
 
@@ -20,8 +23,9 @@ const Chats: FC = () => {
   return (
     <div className="overflow-y-auto">
       {mockChats.map(chat => {
-        const { id, name, messages } = chat
+        const { id, name, messages, users } = chat
         const lastMsg = useMemo(() => messages[messages.length - 1], [messages])
+        const otherUser = useMemo(() => users?.filter(user => user.id !== mockCurrentUser.id)[0], [users])
         return (
           <Link
             to={`/chat/${id}`}
@@ -30,7 +34,7 @@ const Chats: FC = () => {
             })}
             key={id}
           >
-            <div className="min-w-[62px] h-[62px] rounded-full bg-gray-300" />
+            <Avatar className="w-16 h-16" src={otherUser.photoURL} />
             <div className="flex flex-col w-fit grow ml-4">
               <div className="font-semibold">{name}</div>
               <div className="text-gray-400 text-sm overflow-hidden h-10">

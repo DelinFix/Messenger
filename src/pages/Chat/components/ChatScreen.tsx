@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 // components
-import { Message } from 'components/EXPORT'
+import { Avatar, Message } from 'components/EXPORT'
 
 // svg
 import { ArrowIcon, KebabMenuIcon, PaperClipIcon } from 'assets/icons/EXPORT'
@@ -34,18 +34,16 @@ const ChatScreen = () => {
   //     getMessages()
   //   }
   // }
-  const otherUserId = useMemo(
-    () => chatInfo.users?.filter(user => user.id !== mockCurrentUser.id)[0].id,
-    [chatInfo.users]
-  )
+  const otherUser = useMemo(() => chatInfo.users?.filter(user => user.id !== mockCurrentUser.id)[0], [chatInfo.users])
+
   return (
     <div className="h-screen p-3 sm:p-8">
       <div className="flex flex-row items-center w-full pb-4 border-b">
         <Link to="/chat" className="block pr-4 sm:hidden">
           <ArrowIcon width="36px" className="rotate-180 fill-blue-600" />
         </Link>
-        <Link to={`/profile/${otherUserId}`} className="flex flex-row items-center cursor-pointer">
-          <div className="min-w-[50px] h-[50px] rounded-full bg-gray-300" />
+        <Link to={`/profile/${otherUser?.id}`} className="flex flex-row items-center cursor-pointer">
+          <Avatar className="w-14 h-14" src={otherUser?.photoURL} />
           <div className="text-lg font-semibold ml-4">{chatInfo.name}</div>
         </Link>
         <KebabMenuIcon width="20px" className="fill-blue-600 cursor-pointer ml-auto" />

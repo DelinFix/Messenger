@@ -1,24 +1,28 @@
 import { IChat } from 'types/chat'
+import { mockUsers } from './users'
 
 export const mockChats: IChat[] = [
   {
     id: '0',
     name: 'Андрей',
     users: [
-      {
-        id: '1',
-        name: 'Андрей',
-        login: 'andrew',
-        email: 'andrew@yandex.ru',
-        phoneNumber: '89998887766'
-      },
-      {
-        id: '5',
-        name: 'Денис',
-        login: 'DelinMoran',
-        email: 'denbasenko@yandex.ru',
-        phoneNumber: '89881883808'
-      }
+      ...mockUsers.filter(user => user.id === '1' || user.id === '5')
+      // {
+      //   id: '1',
+      //   name: 'Андрей',
+      //   login: 'andrew',
+      //   email: 'andrew@yandex.ru',
+      //   phoneNumber: '89998887766',
+      //   photoURL: 'https://kleo.ru/img/articles/Attorney-1-img.jpg'
+      // },
+      // {
+      //   id: '5',
+      //   name: 'Денис',
+      //   login: 'DelinMoran',
+      //   email: 'denbasenko@yandex.ru',
+      //   phoneNumber: '89881883808',
+      //   photoURL: ''
+      // }
     ],
     messages: [
       {
@@ -54,20 +58,23 @@ export const mockChats: IChat[] = [
     id: '1',
     name: 'Илья',
     users: [
-      {
-        id: '3',
-        name: 'Илья',
-        login: 'ilyacool',
-        email: 'coolilya@yandex.ru',
-        phoneNumber: '89998887766'
-      },
-      {
-        id: '5',
-        name: 'Денис',
-        login: 'DelinMoran',
-        email: 'denbasenko@yandex.ru',
-        phoneNumber: '89881883808'
-      }
+      ...mockUsers.filter(user => user.id === '3' || user.id === '5')
+      // {
+      //   id: '3',
+      //   name: 'Илья',
+      //   login: 'ilyacool',
+      //   email: 'coolilya@yandex.ru',
+      //   phoneNumber: '89998887766',
+      //   photoURL: 'https://cdn1.flamp.ru/7157ee2795de7696bece8a0d3b386b31.jpg'
+      // },
+      // {
+      //   id: '5',
+      //   name: 'Денис',
+      //   login: 'DelinMoran',
+      //   email: 'denbasenko@yandex.ru',
+      //   phoneNumber: '89881883808',
+      //   photoURL: ''
+      // }
     ],
     messages: [
       {
