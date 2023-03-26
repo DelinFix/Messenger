@@ -1,7 +1,12 @@
+const TsconfigPaths = require('vite-tsconfig-paths').default
+
 module.exports = {
   "stories": [
-    "../__stories__/*.stories.mdx",
-    "../__stories__/*.stories.@(js|jsx|ts|tsx)"
+    "../src/__stories__/*.story.mdx",
+    "../src/__stories__/*.story.@(js|jsx|ts|tsx)",
+    '../src/__stories__/**/*.story.@(js|jsx|ts|tsx|mdx)',
+    '../src/__stories__/**/**/*.story.@(js|jsx|ts|tsx|mdx)',
+    '../src/__stories__/**/**/**/*.story.@(js|jsx|ts|tsx|mdx)'
   ],
   "addons": [
     "@storybook/addon-links",
@@ -14,5 +19,9 @@ module.exports = {
   },
   "features": {
     "storyStoreV7": true
+  },
+  viteFinal(config) {
+    config.plugins.push([TsconfigPaths()])
+    return config
   }
 }
